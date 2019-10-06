@@ -1,0 +1,639 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Customer + Favorite Products API
+  description: An API for registering Customers and their Favorite Products
+  contact: {}
+host: '0.0.0.0:8000'
+basePath: /api
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      description: ''
+      summary: POST - Auth
+      tags:
+        - Misc
+      operationId: AuthPost
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POST-AuthRequest'
+      responses:
+        '201':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/auth"
+  /customers:
+    get:
+      description: ''
+      summary: GET - Customers
+      tags:
+        - Misc
+      operationId: CustomersGet
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/customerList"
+      security: []
+    post:
+      description: ''
+      summary: POST - Customer
+      tags:
+        - Misc
+      operationId: CustomersPost
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POST-CustomerRequest'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          headers: {}
+          schema:
+            $ref: "#/definitions/customer"
+      security: []
+  '/customers/{customer_id}':
+    get:
+      description: ''
+      summary: GET - Customer
+      tags:
+        - Misc
+      operationId: Customers1Get
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/customer"
+      security: []
+    put:
+      description: ''
+      summary: PUT - Customer
+      tags:
+        - Misc
+      operationId: Customers1Put
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PUT-CustomerRequest'
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/customer"
+      security: []
+    patch:
+      description: ''
+      summary: PATCH - Customer
+      tags:
+        - Misc
+      operationId: Customers1Patch
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PATCH-CustomerRequest'
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/customer"
+      security: []
+    delete:
+      description: ''
+      summary: DELETE - Customer
+      tags:
+        - Misc
+      operationId: Customers1Delete
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '204':
+          description: ''
+          headers: {}
+      security: []
+  '/customers/{customer_id}/favorite-products':
+    get:
+      description: ''
+      summary: GET - Favorite Products
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProductsGet
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/favoriteProductList"
+      security: []
+    post:
+      description: ''
+      summary: POST - Favorite Product
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProductsPost
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/POST-FavoriteProductRequest'
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '201':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/favoriteProduct"
+      security: []
+  '/customers/{customer_id}/favorite-products/{favorite_product_id}':
+    get:
+      description: ''
+      summary: GET - Favorite Product
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProducts1Get
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+        - name: favorite_product_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/favoriteProduct"
+      security: []
+    put:
+      description: ''
+      summary: PUT - Favorite Product
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProducts1Put
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PUT-FavoriteProductRequest'
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+        - name: favorite_product_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/favoriteProduct"
+      security: []
+    patch:
+      description: ''
+      summary: PATCH - Favorite Product
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProducts1Patch
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Body
+          in: body
+          required: true
+          description: ''
+          schema:
+            $ref: '#/definitions/PATCH-FavoriteProductRequest'
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+        - name: favorite_product_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '200':
+          description: ''
+          headers: {}
+          schema:
+            $ref: "#/definitions/favoriteProduct"
+      security: []
+    delete:
+      description: ''
+      summary: DELETE - Favorite Product
+      tags:
+        - Misc
+      operationId: Customers1FavoriteProducts1Delete
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: Content-Type
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: Authorization
+          in: header
+          required: true
+          type: string
+          description: ''
+        - name: customer_id
+          in: path
+          required: true
+          type: string
+          description: ''
+        - name: favorite_product_id
+          in: path
+          required: true
+          type: string
+          description: ''
+      responses:
+        '204':
+          description: ''
+          headers: {}
+      security: []
+definitions:
+  POST-AuthRequest:
+    title: POST-AuthRequest
+    example:
+      username: admin
+      password: password
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+    required:
+      - username
+      - password
+  POST-CustomerRequest:
+    title: POST-CustomerRequest
+    example:
+      name: Customer Name
+      email: customer@email.com
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+    required:
+      - name
+      - email
+  PUT-CustomerRequest:
+    title: PUT-CustomerRequest
+    example:
+      name: Customer Name
+      email: customer@email.com
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+    required:
+      - name
+      - email
+  PATCH-CustomerRequest:
+    title: PATCH-CustomerRequest
+    example:
+      name: Customer Name
+      email: customer@email.com
+    type: object
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+    required:
+      - name
+      - email
+  POST-FavoriteProductRequest:
+    title: POST-FavoriteProductRequest
+    example:
+      product_id: 212d0f07-8f56-0708-971c-41ee78aadf2b
+    type: object
+    properties:
+      product_id:
+        type: string
+    required:
+      - product_id
+  PUT-FavoriteProductRequest:
+    title: PUT-FavoriteProductRequest
+    example:
+      product_id: 212d0f07-8f56-0708-971c-41ee78aadf2b
+      product_title: The Walking Dead - Game of the Year Edition
+      product_price: 170
+      product_image: http://challenge-api.luizalabs.com/images/212d0f07-8f56-0708-971c-41ee78aadf2b.jpg
+    type: object
+    properties:
+      product_id:
+        type: string
+      product_title:
+        type: string
+      product_price:
+        type: number
+      product_image:
+        type: string
+    required:
+      - product_id
+      - product_title
+      - product_price
+      - product_image
+  PATCH-FavoriteProductRequest:
+    title: PATCH-FavoriteProductRequest
+    example:
+      product_id: 212d0f07-8f56-0708-971c-41ee78aadf2b
+    type: object
+    properties:
+      product_id:
+        type: string
+    required:
+      - product_id
+  customerList:
+    type: object
+    properties:
+      count:
+        type: integer
+      next:
+        type: string
+      previous:
+        type: string
+      results:
+        type: array
+        items:
+          $ref: "#/definitions/customer"
+  customer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      email:
+        type: string
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  favoriteProductList:
+    type: object
+    properties:
+      count:
+        type: integer
+      next:
+        type: string
+      previous:
+        type: string
+      results:
+        type: array
+        items:
+          $ref: "#/definitions/favoriteProduct"
+  favoriteProduct:
+    type: object
+    properties:
+      id:
+        type: integer
+      product_id:
+        type: string
+      product_title:
+        type: string
+      product_price:
+        type: number
+      product_image:
+        type: string
+      review_score:
+        type: number
+        x-nullable: true
+      created_at:
+        type: string
+      updated_at:
+        type: string
+  auth:
+    type: object
+    properties:
+      token:
+        type: string
+tags:
+  - name: Misc
+    description: ''
