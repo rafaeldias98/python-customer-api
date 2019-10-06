@@ -1,4 +1,4 @@
-# Python Customer + Favorite Products API
+# Python Customer + Favorite Products REST API
 
 #### An API for registering Customers and their Favorite Products.
 
