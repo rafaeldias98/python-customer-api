@@ -11,7 +11,7 @@ from django.shortcuts import get_object_or_404
 from .models import Customer, CustomerFavoriteProduct
 from .serializers import CustomerSerializer, CustomerFavoriteProductSerializer, CustomerFavoriteProductDetailSerializer
 from .services import ProductService
-import requests
+from requests import exceptions
 
 
 class CustomerList(generics.ListCreateAPIView):
@@ -58,13 +58,23 @@ class CustomerFavoriteProductList(generics.ListCreateAPIView):
 
         try:
             product = ProductService.get_product_by_id(product_id)
-        except Exception as e:
+        except exceptions.HTTPError as e:
             exception_message = str(e)
+            status_code = e.response.status_code
+            if status_code == status.HTTP_404_NOT_FOUND:
+                exception_message = 'The requested Product doesn’t exist.'
+                status_code = status.HTTP_400_BAD_REQUEST
+
             return Response(
                 {
                     'detail': exception_message
                 },
-                int(exception_message[:3])
+                status_code
+            )
+        except Exception as e:
+            return Response(
+                None,
+                status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
         if not product:
