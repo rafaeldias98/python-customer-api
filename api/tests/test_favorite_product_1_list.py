@@ -4,11 +4,12 @@ from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
-from unittest.mock import Mock, patch
+from unittest.mock import MagicMock, PropertyMock, patch
 from api import views, services
 from .utils import TestUtils
 from ..models import Customer
 from freezegun import freeze_time
+from requests import exceptions
 
 
 class TestCustomerFavoriteProductList(APITestCase):
@@ -164,7 +165,13 @@ class TestCustomerFavoriteProductList(APITestCase):
 
     @patch('api.services.ProductService.get_product_by_id')
     def test_should_return_bad_request_when_nonexistent_product_id_is_passed(self, mock_get_product_by_id):
-        mock_get_product_by_id.side_effect = Exception('404 Client Error: Not Found for url: http://api.products.com/api/product/123')
+        response_mock = MagicMock()
+        type(response_mock).status_code = PropertyMock(return_value=404)
+
+        mock_get_product_by_id.side_effect = exceptions.HTTPError(
+            '404 Client Error: Not Found for url: http://api.products.com/api/product/okok',
+            response=response_mock
+        )
 
         request_body = {
             'product_id': 'okok'
@@ -179,10 +186,36 @@ class TestCustomerFavoriteProductList(APITestCase):
         request.user = self.user
         response = self.view(request, customer_id=self.default_customer_id)
 
-        expected_response_status_code = 404
+        expected_response_status_code = 400
         expected_response_body = {
-            'detail': '404 Client Error: Not Found for url: http://api.products.com/api/product/123'
+            'detail': 'The requested Product doesn’t exist.'
         }
+
+        self.utils.assert_response(
+            response,
+            expected_response_status_code,
+            expected_response_body
+        )
+
+    @patch('api.services.ProductService.get_product_by_id')
+    def test_should_return_internal_server_error_when_unexpected_error_occurs(self, mock_get_product_by_id):
+        mock_get_product_by_id.side_effect = Exception('Unexpected error')
+
+        request_body = {
+            'product_id': 'a\kjlwjfg'
+        }
+
+        request = self.factory.post(
+            self.uri,
+            request_body,
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.key)
+        )
+
+        request.user = self.user
+        response = self.view(request, customer_id=self.default_customer_id)
+
+        expected_response_status_code = 500
+        expected_response_body = None
 
         self.utils.assert_response(
             response,
