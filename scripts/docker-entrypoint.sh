@@ -12,7 +12,7 @@ User.objects.filter(username='${SUPERUSER_NAME}').exists() or \
     User.objects.create_superuser('${SUPERUSER_NAME}', '${SUPERUSER_EMAIL}', '${SUPERUSER_PASSWORD}')
 EOF
 
-if [ "$DEBUG" == "True" ]; then
+if [ "$APPLICATION_ENV" == "development" ]; then
     python3 manage.py runserver 0.0.0.0:8000
 else
     gunicorn customer_api.wsgi:application --bind 0.0.0.0:8000 --workers 3

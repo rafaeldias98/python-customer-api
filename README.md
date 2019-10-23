@@ -27,7 +27,7 @@
 
 ## :rocket: Setup and init API
 ```sh
-$    cp .env.example .env
+$    cp .env.example .env # you can edit if necessary
 $    docker-compose up
 ```
 
