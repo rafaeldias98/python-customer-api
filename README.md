@@ -37,6 +37,11 @@ $    docker-compose up
 $    ./scripts/tests.sh run
 ```
 
+#### To see coverage report
+```sh
+$    ./scripts/tests.sh coverage
+```
+
 ## :lock: Authentication and Authorization
 - This API contains authentication and authorization. A default admin user is created using `.env` credentials, but you can create more users at [Django Admin](http://0.0.0.0:8000/admin/auth/user/) setting their API resource access.
 
