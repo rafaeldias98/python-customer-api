@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from api import views
-from .utils import TestUtils
+from ..utils import TestUtils
 from freezegun import freeze_time
 from django.core import management
 

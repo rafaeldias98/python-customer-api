@@ -40,6 +40,7 @@ $    ./scripts/tests.sh run
 #### To see coverage report
 ```sh
 $    ./scripts/tests.sh coverage
+     # After run this command, you can see the tests coverage in htmlcov/ folder
 ```
 
 ## :lock: Authentication and Authorization

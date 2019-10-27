@@ -6,8 +6,8 @@ from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from unittest.mock import MagicMock, PropertyMock, patch
 from api import views, services
-from .utils import TestUtils
-from ..models import Customer
+from ..utils import TestUtils
+from ...models import Customer
 from freezegun import freeze_time
 from requests import exceptions
 
@@ -32,6 +32,26 @@ class TestCustomerFavoriteProductList(APITestCase):
             'test',
             email='testuser@test.com',
             password='test'
+        )
+
+    def test_should_return_not_found_when_send_request_to_unregistered_customer_in_favorite_products_path(self):
+        request = self.factory.get(
+            self.uri,
+            HTTP_AUTHORIZATION='Token {}'.format(self.token.key)
+        )
+
+        request.user = self.user
+        response = self.view(request, customer_id=50)
+
+        expected_response_status_code = 404
+        expected_response_body = {
+            'detail': 'Not found.'
+        }
+
+        self.utils.assert_response(
+            response,
+            expected_response_status_code,
+            expected_response_body
         )
 
     def test_should_return_success_and_empty_results_when_there_are_no_registered_favorite_products(self):
