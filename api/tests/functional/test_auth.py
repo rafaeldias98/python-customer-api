@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
@@ -15,31 +14,13 @@ class TestAuth(APITestCase):
         self.view = views.Auth.as_view()
         self.test_view = views.CustomerList.as_view()
         self.factory = APIRequestFactory()
-        self.user = self.setup_user()
+        self.user = TestUtils.create_user()
         self.token = Token.objects.create(user=self.user)
         self.token.save()
-        self.superuser = self.setup_superuser()
+        self.superuser = TestUtils.create_superuser()
         self.superuser_token = Token.objects.create(user=self.superuser)
         self.superuser_token.save()
         self.utils = TestUtils()
-
-    @staticmethod
-    def setup_user():
-        User = get_user_model()
-        return User.objects.create_user(
-            'user',
-            email='testuser@test.com',
-            password='test'
-        )
-
-    @staticmethod
-    def setup_superuser():
-        User = get_user_model()
-        return User.objects.create_superuser(
-            'superuser',
-            email='superuser@test.com',
-            password='test'
-        )
 
     def test_should_return_user_auth_token_when_valid_credentials_is_passed(self):
         request_body = {
