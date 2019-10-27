@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework.test import APITestCase
+from django.contrib.auth import get_user_model
 from django.core import management
 from ..models import Customer, CustomerFavoriteProduct
 from freezegun import freeze_time
@@ -53,3 +54,21 @@ class TestUtils(APITestCase):
     @staticmethod
     def clear_database_auto_increments():
         management.call_command('sqlsequencereset', 'api')
+
+    @staticmethod
+    def create_user(username='user', email='testuser@test.com', password='test'):
+        User = get_user_model()
+        return User.objects.create_user(
+            username,
+            email=email,
+            password=password
+        )
+
+    @staticmethod
+    def create_superuser(username='superuser', email='superuser@test.com', password='test'):
+        User = get_user_model()
+        return User.objects.create_superuser(
+            username,
+            email=email,
+            password=password
+        )

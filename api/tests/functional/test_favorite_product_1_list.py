@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
@@ -18,21 +17,12 @@ class TestCustomerFavoriteProductList(APITestCase):
         self.uri = '/customers/{0}/favorite-products/'.format(self.default_customer_id)
         self.view = views.CustomerFavoriteProductList.as_view()
         self.factory = APIRequestFactory()
-        self.user = self.setup_user()
+        self.user = TestUtils.create_superuser()
         self.token = Token.objects.create(user=self.user)
         self.token.save()
         self.utils = TestUtils()
         self.utils.clear_database_auto_increments()
         self.customer = self.utils.create_customer_if_not_exists(identifier=int(self.default_customer_id))
-
-    @staticmethod
-    def setup_user():
-        User = get_user_model()
-        return User.objects.create_superuser(
-            'test',
-            email='testuser@test.com',
-            password='test'
-        )
 
     def test_should_return_not_found_when_send_request_to_unregistered_customer_in_favorite_products_path(self):
         request = self.factory.get(

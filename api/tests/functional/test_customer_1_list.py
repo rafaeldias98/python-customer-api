@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
@@ -15,20 +14,11 @@ class TestCustomerList(APITestCase):
         self.uri = '/customers/'
         self.view = views.CustomerList.as_view()
         self.factory = APIRequestFactory()
-        self.user = self.setup_user()
+        self.user = TestUtils.create_superuser()
         self.token = Token.objects.create(user=self.user)
         self.token.save()
         self.utils = TestUtils()
         self.utils.clear_database_auto_increments()
-
-    @staticmethod
-    def setup_user():
-        User = get_user_model()
-        return User.objects.create_superuser(
-            'test',
-            email='testuser@test.com',
-            password='test'
-        )
 
     def test_should_return_success_and_empty_results_when_there_are_no_registered_customers(self):
         request = self.factory.get(

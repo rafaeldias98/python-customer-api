@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 from rest_framework.test import APIRequestFactory
 from api import views
 from ..utils import TestUtils
 from freezegun import freeze_time
-from django.core import management
 
 
 class TestCustomerDetail(APITestCase):
@@ -16,21 +14,12 @@ class TestCustomerDetail(APITestCase):
         self.uri = '/customers/' + self.default_customer_id
         self.view = views.CustomerDetail.as_view()
         self.factory = APIRequestFactory()
-        self.user = self.setup_user()
+        self.user = TestUtils.create_superuser()
         self.token = Token.objects.create(user=self.user)
         self.token.save()
         self.utils = TestUtils()
         self.utils.clear_database_auto_increments()
         self.utils.create_customer_if_not_exists(identifier=int(self.default_customer_id))
-
-    @staticmethod
-    def setup_user():
-        User = get_user_model()
-        return User.objects.create_superuser(
-            'test',
-            email='testuser@test.com',
-            password='test'
-        )
 
     def test_should_return_success_when_retrieve_registered_customer(self):
         request = self.factory.get(
