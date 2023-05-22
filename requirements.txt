@@ -2,7 +2,7 @@ Django==2.2.24
 djangorestframework==3.11.2
 mysqlclient==1.4.4
 django-mysql==3.2.0
-requests==2.22.0
+requests==2.31.0
 gunicorn==19.9.0
 freezegun==0.3.12
 coverage==4.5.4
